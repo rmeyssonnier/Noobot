@@ -7,11 +7,11 @@ from noobot.routing import RectangleRouting
 
 
 def main():
-    player = Player(Position(-1, -27))
-    destination = Position(2, -22)
-
     game_vision = GameVision()
     game_action = CollectAction()
+
+    player = Player(game_vision.get_current_position())
+    destination = Position(player.position.x + 3, player.position.y + 5)
     game_routing = RectangleRouting(player, destination)
 
     bot = Brain(game_vision, game_action, game_routing, player)

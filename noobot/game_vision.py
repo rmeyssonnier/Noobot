@@ -1,4 +1,3 @@
-import pyautogui
 import cv2 as cv
 import numpy as np
 import pyautogui
@@ -37,7 +36,7 @@ class GameVision:
         for p in r:
             for elem in p.split('\n'):
                 if 'Niveau' in elem:
-                    return Position(elem.split(',')[0], elem.split(',')[1])
+                    return Position(int(elem.split(',')[0]), int(elem.split(',')[1]))
         return Position(0, 0)
 
     def analyze_current_frame(self):
