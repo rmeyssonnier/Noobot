@@ -11,6 +11,7 @@ class Brain:
         self.game_action = game_action
         self.game_routing = game_routing
         self.player = player
+        self.moving = True
 
     def init_bot(self):
         ortie_entity = Entity('Ortie', './ressources/ortie.png')
@@ -22,15 +23,21 @@ class Brain:
             on_release=self.on_key_release)
         self.keyboard_listener.start()
 
-        print('Bot init complete start from ', self.player.position, ' to ', self.game_routing.end_position)
+        print('Bot init complete start from ', self.player.position, ' to ', self.game_routing.destination)
 
     def loop(self):
         while True:
             if self.run:
-                to_farm = self.game_vision.analyze_current_frame()
-                for entity in to_farm:
+                resources = self.game_vision.track_resources()
+                for entity in resources:
                     self.game_action.collect_ressource(entity[0], entity[1])
-                self.move()
+                if not self.game_routing.arrived():
+                    self.move()
+                    if self.moving:
+                        print('Arrived to destination')
+                        self.moving = False
+                else:
+                    sleep(1)
             else:
                 sleep(0.5)
 

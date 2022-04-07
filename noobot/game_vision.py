@@ -39,9 +39,6 @@ class GameVision:
                     return Position(int(elem.split(',')[0]), int(elem.split(',')[1]))
         return Position(0, 0)
 
-    def analyze_current_frame(self):
-        return self.track_resources()
-
     def track_resources(self):
         vision_result = []
         for element in self.to_track:
@@ -58,7 +55,6 @@ class GameVision:
             loc = np.where(res >= threshold)
 
             cv_res = reduce_vision_result(zip(*loc[::-1]), 20)
-            print('Found : ', len(cv_res))
 
             for pt in cv_res:
                 to_click = [pt[0] + (element.width / 2), pt[1] + (element.height / 2)]
@@ -67,7 +63,5 @@ class GameVision:
                 if to_click[0] > self.search_zone[0][0] and to_click[0] < self.search_zone[1][0] and to_click[1] > \
                         self.search_zone[0][1] and to_click[1] < self.search_zone[1][1]:
                     vision_result.append((element, Position(to_click[0], to_click[1])))
-                else:
-                    print('Entity out of zone')
 
         return vision_result

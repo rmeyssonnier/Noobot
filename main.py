@@ -3,7 +3,7 @@ from noobot.brain import Brain
 from noobot.game_vision import GameVision
 from noobot.player import Player
 from noobot.position import Position
-from noobot.routing import RectangleRouting
+from noobot.routing import RectangleRouting, AutoPiloteRouting
 
 
 def main():
@@ -11,8 +11,10 @@ def main():
     game_action = CollectAction()
 
     player = Player(game_vision.get_current_position())
-    destination = Position(player.position.x + 3, player.position.y + 5)
-    game_routing = RectangleRouting(player, destination)
+    #destination = Position(player.position.x + 3, player.position.y + 5)
+    destination = Position(0, -22)
+    #game_routing = RectangleRouting(player, destination)
+    game_routing = AutoPiloteRouting(player, destination)
 
     bot = Brain(game_vision, game_action, game_routing, player)
     bot.init_bot()
